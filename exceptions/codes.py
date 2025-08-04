@@ -1,0 +1,195 @@
+"""Error codes for consistent error handling."""
+
+
+class ErrorCodes:
+    """Centralized error codes."""
+    
+    # General errors (1000-1999)
+    INTERNAL_ERROR = 'INTERNAL_ERROR'
+    UNKNOWN_ERROR = 'UNKNOWN_ERROR'
+    CONFIGURATION_ERROR = 'CONFIGURATION_ERROR'
+    MAINTENANCE_MODE_ERROR = 'MAINTENANCE_MODE_ERROR'
+    
+    # Validation errors (2000-2999)
+    VALIDATION_ERROR = 'VALIDATION_ERROR'
+    SERIALIZATION_ERROR = 'SERIALIZATION_ERROR'
+    INVALID_INPUT = 'INVALID_INPUT'
+    MISSING_REQUIRED_FIELD = 'MISSING_REQUIRED_FIELD'
+    INVALID_FORMAT = 'INVALID_FORMAT'
+    INVALID_VALUE = 'INVALID_VALUE'
+    FIELD_TOO_LONG = 'FIELD_TOO_LONG'
+    FIELD_TOO_SHORT = 'FIELD_TOO_SHORT'
+    
+    # Authentication errors (3000-3999)
+    AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR'
+    INVALID_CREDENTIALS = 'INVALID_CREDENTIALS'
+    TOKEN_EXPIRED = 'TOKEN_EXPIRED'
+    TOKEN_INVALID = 'TOKEN_INVALID'
+    TOKEN_NOT_PROVIDED = 'TOKEN_NOT_PROVIDED'
+    ACCOUNT_DISABLED = 'ACCOUNT_DISABLED'
+    ACCOUNT_LOCKED = 'ACCOUNT_LOCKED'
+    LOGIN_ATTEMPTS_EXCEEDED = 'LOGIN_ATTEMPTS_EXCEEDED'
+    PASSWORD_EXPIRED = 'PASSWORD_EXPIRED'
+    TWO_FACTOR_REQUIRED = 'TWO_FACTOR_REQUIRED'
+    INVALID_TWO_FACTOR_CODE = 'INVALID_TWO_FACTOR_CODE'
+    
+    # Authorization errors (4000-4999)
+    PERMISSION_ERROR = 'PERMISSION_ERROR'
+    INSUFFICIENT_PERMISSIONS = 'INSUFFICIENT_PERMISSIONS'
+    ACCESS_DENIED = 'ACCESS_DENIED'
+    RESOURCE_ACCESS_DENIED = 'RESOURCE_ACCESS_DENIED'
+    ROLE_REQUIRED = 'ROLE_REQUIRED'
+    SCOPE_INSUFFICIENT = 'SCOPE_INSUFFICIENT'
+    
+    # Resource errors (5000-5999)
+    NOT_FOUND_ERROR = 'NOT_FOUND_ERROR'
+    RESOURCE_NOT_FOUND = 'RESOURCE_NOT_FOUND'
+    USER_NOT_FOUND = 'USER_NOT_FOUND'
+    ENDPOINT_NOT_FOUND = 'ENDPOINT_NOT_FOUND'
+    METHOD_NOT_ALLOWED = 'METHOD_NOT_ALLOWED'
+    
+    # Conflict errors (6000-6999)
+    CONFLICT_ERROR = 'CONFLICT_ERROR'
+    RESOURCE_ALREADY_EXISTS = 'RESOURCE_ALREADY_EXISTS'
+    DUPLICATE_ENTRY = 'DUPLICATE_ENTRY'
+    EMAIL_ALREADY_EXISTS = 'EMAIL_ALREADY_EXISTS'
+    USERNAME_ALREADY_EXISTS = 'USERNAME_ALREADY_EXISTS'
+    RESOURCE_IN_USE = 'RESOURCE_IN_USE'
+    CONCURRENT_MODIFICATION = 'CONCURRENT_MODIFICATION'
+    
+    # Rate limiting errors (7000-7999)
+    RATE_LIMIT_ERROR = 'RATE_LIMIT_ERROR'
+    TOO_MANY_REQUESTS = 'TOO_MANY_REQUESTS'
+    API_QUOTA_EXCEEDED = 'API_QUOTA_EXCEEDED'
+    DAILY_LIMIT_EXCEEDED = 'DAILY_LIMIT_EXCEEDED'
+    HOURLY_LIMIT_EXCEEDED = 'HOURLY_LIMIT_EXCEEDED'
+    QUOTA_EXCEEDED_ERROR = 'QUOTA_EXCEEDED_ERROR'
+    
+    # Service errors (8000-8999)
+    SERVICE_UNAVAILABLE_ERROR = 'SERVICE_UNAVAILABLE_ERROR'
+    EXTERNAL_SERVICE_ERROR = 'EXTERNAL_SERVICE_ERROR'
+    DATABASE_ERROR = 'DATABASE_ERROR'
+    CACHE_ERROR = 'CACHE_ERROR'
+    NETWORK_ERROR = 'NETWORK_ERROR'
+    TIMEOUT_ERROR = 'TIMEOUT_ERROR'
+    CONNECTION_ERROR = 'CONNECTION_ERROR'
+    
+    # Business logic errors (9000-9999)
+    BUSINESS_LOGIC_ERROR = 'BUSINESS_LOGIC_ERROR'
+    INVALID_OPERATION = 'INVALID_OPERATION'
+    OPERATION_NOT_ALLOWED = 'OPERATION_NOT_ALLOWED'
+    PRECONDITION_FAILED = 'PRECONDITION_FAILED'
+    INSUFFICIENT_FUNDS = 'INSUFFICIENT_FUNDS'
+    INVALID_STATE = 'INVALID_STATE'
+    WORKFLOW_ERROR = 'WORKFLOW_ERROR'
+    
+    # File and upload errors (10000-10999)
+    FILE_UPLOAD_ERROR = 'FILE_UPLOAD_ERROR'
+    FILE_TOO_LARGE = 'FILE_TOO_LARGE'
+    INVALID_FILE_TYPE = 'INVALID_FILE_TYPE'
+    FILE_NOT_FOUND = 'FILE_NOT_FOUND'
+    STORAGE_ERROR = 'STORAGE_ERROR'
+    FILE_PROCESSING_ERROR = 'FILE_PROCESSING_ERROR'
+    
+    # Payment errors (11000-11999)
+    PAYMENT_ERROR = 'PAYMENT_ERROR'
+    PAYMENT_FAILED = 'PAYMENT_FAILED'
+    PAYMENT_DECLINED = 'PAYMENT_DECLINED'
+    INVALID_PAYMENT_METHOD = 'INVALID_PAYMENT_METHOD'
+    PAYMENT_TIMEOUT = 'PAYMENT_TIMEOUT'
+    REFUND_ERROR = 'REFUND_ERROR'
+    
+    # Email errors (12000-12999)
+    EMAIL_ERROR = 'EMAIL_ERROR'
+    EMAIL_SEND_FAILED = 'EMAIL_SEND_FAILED'
+    INVALID_EMAIL_ADDRESS = 'INVALID_EMAIL_ADDRESS'
+    EMAIL_TEMPLATE_ERROR = 'EMAIL_TEMPLATE_ERROR'
+    
+    # SMS errors (13000-13999)
+    SMS_ERROR = 'SMS_ERROR'
+    SMS_SEND_FAILED = 'SMS_SEND_FAILED'
+    INVALID_PHONE_NUMBER = 'INVALID_PHONE_NUMBER'
+    
+    # Integration errors (14000-14999)
+    INTEGRATION_ERROR = 'INTEGRATION_ERROR'
+    API_VERSION_NOT_SUPPORTED = 'API_VERSION_NOT_SUPPORTED'
+    WEBHOOK_ERROR = 'WEBHOOK_ERROR'
+    THIRD_PARTY_ERROR = 'THIRD_PARTY_ERROR'
+
+
+class ErrorCategories:
+    """Error categories for grouping related errors."""
+    
+    GENERAL = 'general'
+    VALIDATION = 'validation'
+    AUTHENTICATION = 'authentication'
+    AUTHORIZATION = 'authorization'
+    RESOURCE = 'resource'
+    CONFLICT = 'conflict'
+    RATE_LIMITING = 'rate_limiting'
+    SERVICE = 'service'
+    BUSINESS_LOGIC = 'business_logic'
+    FILE_UPLOAD = 'file_upload'
+    PAYMENT = 'payment'
+    EMAIL = 'email'
+    SMS = 'sms'
+    INTEGRATION = 'integration'
+
+
+# Map error codes to categories
+ERROR_CODE_CATEGORIES = {
+    # General errors
+    ErrorCodes.INTERNAL_ERROR: ErrorCategories.GENERAL,
+    ErrorCodes.UNKNOWN_ERROR: ErrorCategories.GENERAL,
+    ErrorCodes.CONFIGURATION_ERROR: ErrorCategories.GENERAL,
+    ErrorCodes.MAINTENANCE_MODE_ERROR: ErrorCategories.GENERAL,
+    
+    # Validation errors
+    ErrorCodes.VALIDATION_ERROR: ErrorCategories.VALIDATION,
+    ErrorCodes.SERIALIZATION_ERROR: ErrorCategories.VALIDATION,
+    ErrorCodes.INVALID_INPUT: ErrorCategories.VALIDATION,
+    ErrorCodes.MISSING_REQUIRED_FIELD: ErrorCategories.VALIDATION,
+    ErrorCodes.INVALID_FORMAT: ErrorCategories.VALIDATION,
+    ErrorCodes.INVALID_VALUE: ErrorCategories.VALIDATION,
+    ErrorCodes.FIELD_TOO_LONG: ErrorCategories.VALIDATION,
+    ErrorCodes.FIELD_TOO_SHORT: ErrorCategories.VALIDATION,
+    
+    # Authentication errors
+    ErrorCodes.AUTHENTICATION_ERROR: ErrorCategories.AUTHENTICATION,
+    ErrorCodes.INVALID_CREDENTIALS: ErrorCategories.AUTHENTICATION,
+    ErrorCodes.TOKEN_EXPIRED: ErrorCategories.AUTHENTICATION,
+    ErrorCodes.TOKEN_INVALID: ErrorCategories.AUTHENTICATION,
+    ErrorCodes.TOKEN_NOT_PROVIDED: ErrorCategories.AUTHENTICATION,
+    ErrorCodes.ACCOUNT_DISABLED: ErrorCategories.AUTHENTICATION,
+    ErrorCodes.ACCOUNT_LOCKED: ErrorCategories.AUTHENTICATION,
+    ErrorCodes.LOGIN_ATTEMPTS_EXCEEDED: ErrorCategories.AUTHENTICATION,
+    ErrorCodes.PASSWORD_EXPIRED: ErrorCategories.AUTHENTICATION,
+    ErrorCodes.TWO_FACTOR_REQUIRED: ErrorCategories.AUTHENTICATION,
+    ErrorCodes.INVALID_TWO_FACTOR_CODE: ErrorCategories.AUTHENTICATION,
+    
+    # Add more mappings as needed...
+}
+
+
+def get_error_category(error_code: str) -> str:
+    """Get error category for a given error code."""
+    return ERROR_CODE_CATEGORIES.get(error_code, ErrorCategories.GENERAL)
+
+
+def is_client_error(error_code: str) -> bool:
+    """Check if error code represents a client error (4xx)."""
+    client_error_categories = {
+        ErrorCategories.VALIDATION,
+        ErrorCategories.AUTHENTICATION,
+        ErrorCategories.AUTHORIZATION,
+        ErrorCategories.RESOURCE,
+        ErrorCategories.CONFLICT,
+        ErrorCategories.RATE_LIMITING,
+    }
+    category = get_error_category(error_code)
+    return category in client_error_categories
+
+
+def is_server_error(error_code: str) -> bool:
+    """Check if error code represents a server error (5xx)."""
+    return not is_client_error(error_code)
