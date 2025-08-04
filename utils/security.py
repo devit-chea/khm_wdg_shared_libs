@@ -129,6 +129,209 @@ def verify_password(password: str, hashed_password: str, salt: str, iterations: 
         salt: Salt used for hashing
         iterations: Number of iterations used
     
-    Returns
+    Returns:
+        True if password matches, False otherwise
     """
-    pass
+    try:
+        computed_hash, _ = hash_password(password, salt, iterations)
+        return hmac.compare_digest(computed_hash, hashed_password)
+    except Exception:
+        return False
+
+
+def generate_api_key(length: int = 32) -> str:
+    """
+    Generate a secure API key.
+    
+    Args:
+        length: Length of the key
+    
+    Returns:
+        URL-safe API key
+    """
+    return secrets.token_urlsafe(length)
+
+
+def generate_otp(length: int = 6) -> str:
+    """
+    Generate a numeric OTP.
+    
+    Args:
+        length: Length of OTP
+    
+    Returns:
+        Numeric OTP string
+    """
+    return ''.join(secrets.choice('0123456789') for _ in range(length))
+
+
+def create_signature(data: str, secret: Optional[str] = None) -> str:
+    """
+    Create HMAC signature for data.
+    
+    Args:
+        data: Data to sign
+        secret: Secret key (if None, uses Django SECRET_KEY)
+    
+    Returns:
+        Base64 encoded signature
+    """
+    if secret is None:
+        secret = settings.SECRET_KEY
+    
+    signature = hmac.new(
+        secret.encode('utf-8'),
+        data.encode('utf-8'),
+        hashlib.sha256
+    ).digest()
+    
+    return base64.urlsafe_b64encode(signature).decode('utf-8')
+
+
+def verify_signature(data: str, signature: str, secret: Optional[str] = None) -> bool:
+    """
+    Verify HMAC signature.
+    
+    Args:
+        data: Original data
+        signature: Signature to verify
+        secret: Secret key (if None, uses Django SECRET_KEY)
+    
+    Returns:
+        True if signature is valid, False otherwise
+    """
+    try:
+        expected_signature = create_signature(data, secret)
+        return hmac.compare_digest(signature, expected_signature)
+    except Exception:
+        return False
+
+
+def sign_data(data: str, max_age: Optional[int] = None) -> str:
+    """
+    Sign data using Django's Signer.
+    
+    Args:
+        data: Data to sign
+        max_age: Maximum age in seconds
+    
+    Returns:
+        Signed data
+    """
+    signer = Signer()
+    return signer.sign(data)
+
+
+def unsign_data(signed_data: str, max_age: Optional[int] = None) -> Optional[str]:
+    """
+    Unsign data using Django's Signer.
+    
+    Args:
+        signed_data: Signed data
+        max_age: Maximum age in seconds
+    
+    Returns:
+        Original data or None if invalid
+    """
+    try:
+        signer = Signer()
+        return signer.unsign(signed_data, max_age=max_age)
+    except BadSignature:
+        return None
+
+
+def mask_sensitive_data(data: str, visible_chars: int = 4, mask_char: str = '*') -> str:
+    """
+    Mask sensitive data showing only last few characters.
+    
+    Args:
+        data: Data to mask
+        visible_chars: Number of characters to show at the end
+        mask_char: Character to use for masking
+    
+    Returns:
+        Masked data
+    """
+    if len(data) <= visible_chars:
+        return mask_char * len(data)
+    
+    masked_length = len(data) - visible_chars
+    return mask_char * masked_length + data[-visible_chars:]
+
+
+def generate_csrf_token() -> str:
+    """Generate a CSRF token."""
+    return secrets.token_urlsafe(32)
+
+
+def constant_time_compare(a: str, b: str) -> bool:
+    """
+    Compare two strings in constant time to prevent timing attacks.
+    
+    Args:
+        a: First string
+        b: Second string
+    
+    Returns:
+        True if strings are equal, False otherwise
+    """
+    return hmac.compare_digest(a, b)
+
+
+def sanitize_input(data: str, allowed_chars: Optional[str] = None) -> str:
+    """
+    Sanitize input by removing/replacing dangerous characters.
+    
+    Args:
+        data: Input data to sanitize
+        allowed_chars: Characters to allow (if None, uses alphanumeric + common safe chars)
+    
+    Returns:
+        Sanitized data
+    """
+    if allowed_chars is None:
+        allowed_chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .-_@'
+    
+    return ''.join(char for char in data if char in allowed_chars)
+
+
+def is_safe_url(url: str, allowed_hosts: Optional[list] = None) -> bool:
+    """
+    Check if URL is safe for redirect.
+    
+    Args:
+        url: URL to check
+        allowed_hosts: List of allowed hosts
+    
+    Returns:
+        True if URL is safe, False otherwise
+    """
+    if not url:
+        return False
+    
+    # Prevent javascript: and data: URLs
+    if url.lower().startswith(('javascript:', 'data:', 'vbscript:')):
+        return False
+    
+    # Allow relative URLs
+    if url.startswith('/') and not url.startswith('//'):
+        return True
+    
+    # Check against allowed hosts if provided
+    if allowed_hosts:
+        from urllib.parse import urlparse
+        try:
+            parsed = urlparse(url)
+            return parsed.netloc in allowed_hosts
+        except Exception:
+            return False
+    
+    return False
+
+
+# Global encryption manager instance
+encryption_manager = EncryptionManager()
+
+# Convenience functions
+encrypt = encryption_manager.encrypt
+decrypt = encryption_manager.decrypt
