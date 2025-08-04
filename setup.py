@@ -28,9 +28,9 @@ setup(
     description="Shared libraries and utilities for Django REST Framework projects",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourorg/django-shared-libs",
+    url="https://github.com/devit-chea/khm_wdg_shared_libs",
     project_urls={
-        "Bug Tracker": "https://github.com/yourorg/django-shared-libs/issues",
+        "Bug Tracker": "https://github.com/devit-chea/khm_wdg_shared_libs/issues",
         "Documentation": "https://django-shared-libs.readthedocs.io/",
     },
     packages=find_packages(exclude=["tests*"]),
