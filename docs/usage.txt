@@ -1,0 +1,24 @@
+# Example usage of django-shared-libs
+
+# 1. Install the package
+# pip install django-shared-libs
+
+# 2. Add to Django settings.py
+"""
+INSTALLED_APPS = [
+    # ... your apps
+    'shared_libs',
+]
+
+# Exception handling
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'shared_libs.exceptions.handlers.custom_exception_handler',
+    'DEFAULT_PAGINATION_CLASS': 'shared_libs.views.base_views.StandardResultPagination',
+    'PAGE_SIZE': 20,
+}
+
+# Celery settings (if using tasks)
+CELERY_TASK_ROUTES = {
+    'myapp.tasks.*': {'queue': 'default'},
+}
+"""

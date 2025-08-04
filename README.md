@@ -37,7 +37,7 @@ from shared_libs.models.mixins import TimeStampedModel
 from shared_libs.views.base_views import BaseAPIView
 ```
 
-See the [docs/usage](docs/usage/) directory for detailed usage examples.
+See the [docs/usage.txt](docs/usage.txt) directory for detailed usage examples.
 
 ## Project Structure
 
